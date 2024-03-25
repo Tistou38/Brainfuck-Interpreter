@@ -15,10 +15,11 @@ char* get_input_prog(char* input_filename)
         return NULL;
     }
 
-    uint64_t i = 0;
-    while ((i < DATA_ARRAY_SIZE - 1))
+    uint32_t i = 0;
+    int c;
+    while ((i < DATA_ARRAY_SIZE - 1) && ((c = fgetc(fptr)) != EOF))
     {   
-        array[i] = (char) fgetc(fptr);
+        array[i] = (char) c;
         i++;
     }
     array[i] = '\0'; /*Add end character*/
@@ -27,3 +28,7 @@ char* get_input_prog(char* input_filename)
     
 }
 
+// char* get_input_prog(char* input_prog)
+// {
+
+// }

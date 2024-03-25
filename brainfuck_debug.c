@@ -3,8 +3,10 @@
 #include "brainfuck_debug.h"
 
 void display_buffer(char* buffer){
-    size_t buffer_size = sizeof(buffer);
-    for (uint32_t i = 0 ; i < buffer_size ; i++){
-        printf("%c\n", buffer[i]);
+    uint32_t i = 0;
+    char current;
+    while((i < DATA_ARRAY_SIZE) && ((current=buffer[i]) != '\0')){
+        printf("%c", current);
+        i ++;
     }
 }

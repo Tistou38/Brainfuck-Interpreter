@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
-
+#include "brainfuck_debug.h"
 #include "brainfuck_helper.h"
 
 /**
@@ -21,22 +21,23 @@ int main(int argc, char **argv) {
     }
 
     char* input_prog = get_input_prog(argv[1]);
+    display_buffer(input_prog);
     char* ip = input_prog;
-    if (ip == NULL) {
-        printf("Le fichier Brainfuck passé en paramètre n'existe pas dans le répertoire courant\n");
-        return 1;
-    }
+    // if (ip == NULL) {
+    //     printf("Le fichier Brainfuck passé en paramètre n'existe pas dans le répertoire courant\n");
+    //     return 1;
+    // }
 
-    void* loops = build_loops(ip);
-    uint8_t* data_array = calloc(DATA_ARRAY_SIZE, sizeof(uint8_t));
-    uint8_t* dp = data_array;
-    size_t instruction_id = 0;
-    while (*ip != '\0') {
-        instruction_id++;
-        execute_instruction(&ip, &dp, loops);
-    }
-    free(data_array);
-    free_loops(loops);
-    free_input_prog(input_prog);
+    // void* loops = build_loops(ip);
+    // uint8_t* data_array = calloc(DATA_ARRAY_SIZE, sizeof(uint8_t));
+    // uint8_t* dp = data_array;
+    // size_t instruction_id = 0;
+    // while (*ip != '\0') {
+    //     instruction_id++;
+    //     execute_instruction(&ip, &dp, loops);
+    // }
+    // free(data_array);
+    // free_loops(loops);
+    // free_input_prog(input_prog);
     return EXIT_SUCCESS;
 }

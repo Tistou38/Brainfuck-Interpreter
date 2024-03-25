@@ -17,8 +17,11 @@ brainfuck_debug.o: brainfuck_debug.c
 brainfuck_main.o: brainfuck_main.c
 	$(CC) -o $@ -c $< $(CFLAGS)
 
-all_test: $(EXEC) $(TESTS)
-	./$(EXEC) $^ 
+all_test: $(EXEC) $(TESTS_FILES)
+	@for test_file in $(TESTS_FILES); do \
+		echo "Running test: $$test_file"; \
+		./$(EXEC) $$test_file; \
+	done
 .PHONY: clean
 clean:
 	rm -f *.o
