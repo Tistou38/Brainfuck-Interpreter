@@ -10,3 +10,13 @@ void display_buffer(char* buffer){
         i ++;
     }
 }
+void display_loops_array(struct Loop* loops){
+    struct Loop current_loop;
+    uint32_t i = 0;
+    while (i<100)
+    {
+        current_loop = loops[i];
+        printf("Loop n°%d : start = %d, end = %d\n", i, current_loop.start, current_loop.end);
+        i++;
+    }
+}

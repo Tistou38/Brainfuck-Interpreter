@@ -1,6 +1,10 @@
+#ifndef BRAINFUCK_DEBUG_H
+#define BRAINFUCK_DEBUG_H
+
 #include <stdlib.h>
 #include <stdint.h>
-#define DATA_ARRAY_SIZE 32000
+#include "brainfuck_helper.h"
+
 /**
  * @brief Display buffer
  *
@@ -8,3 +12,6 @@
  * @return void
  */
 void display_buffer(char* buffer);
+
+void display_loops_array(struct Loop* loops);
+#endif /* BRAINFUCK_DEBUG_H */

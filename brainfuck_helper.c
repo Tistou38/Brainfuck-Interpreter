@@ -37,3 +37,32 @@ void free_input_prog(char* input_prog)
     free(input_prog);
 }
 
+void* build_loops(char* input_prog)
+{
+    uint32_t loops_capacity = 100;
+    uint32_t loops_count = 0;
+    struct Loop* loops = malloc(loops_capacity * sizeof(struct Loop));
+    
+    char current;
+    uint32_t i = 0;
+    while ((current = input_prog[i]) != '\0')
+    {
+        if (current == '['){
+            if (loops_count == loops_capacity){
+                loops_capacity *= 2;
+                loops = realloc(loops, loops_capacity * sizeof(struct Loop));
+            }
+            struct Loop new_loop = { .start = i, .end = 0 };
+            loops[loops_count] = new_loop;
+            loops_count++;
+            
+        }
+        else if (current == ']'){
+            loops[loops_count - 1].end = i;
+        }
+
+        i++;
+
+    }
+    return loops;
+}

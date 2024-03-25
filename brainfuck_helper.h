@@ -1,6 +1,13 @@
+#ifndef BRAINFUCK_HELPER_H
+#define BRAINFUCK_HELPER_H
 #include <stdlib.h>
 #include <stdint.h>
 
+struct Loop 
+{
+    int start;
+    int end;
+};
 #define DATA_ARRAY_SIZE 32000
 
 /**
@@ -46,3 +53,4 @@ void free_loops(void* loops);
  * @param loops le "quelque chose" représentant les boucles, cf 'build_loops'.
  */
 void execute_instruction(char** ipp, uint8_t** dpp, void* loops);
+#endif /* BRAINFUCK_HELPER_H */

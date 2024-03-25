@@ -21,14 +21,16 @@ int main(int argc, char **argv) {
     }
 
     char* input_prog = get_input_prog(argv[1]);
-    display_buffer(input_prog);
+    free_input_prog(input_prog);
+    // display_buffer(input_prog);
     char* ip = input_prog;
-    // if (ip == NULL) {
-    //     printf("Le fichier Brainfuck passé en paramètre n'existe pas dans le répertoire courant\n");
-    //     return 1;
-    // }
+    if (ip == NULL) {
+        printf("Le fichier Brainfuck passé en paramètre n'existe pas dans le répertoire courant\n");
+        return 1;
+    }
 
-    // void* loops = build_loops(ip);
+    void* loops = build_loops(ip);
+    display_loops_array(loops);
     // uint8_t* data_array = calloc(DATA_ARRAY_SIZE, sizeof(uint8_t));
     // uint8_t* dp = data_array;
     // size_t instruction_id = 0;
