@@ -28,7 +28,12 @@ char* get_input_prog(char* input_filename)
     
 }
 
-// char* get_input_prog(char* input_prog)
-// {
+void free_input_prog(char* input_prog)
+{
+    if (input_prog == NULL){
+        return;
+    }
+    
+    free(input_prog);
+}
 
-// }
