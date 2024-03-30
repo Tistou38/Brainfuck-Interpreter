@@ -11,9 +11,7 @@ char* get_input_prog(char* input_filename)
 
     /*Opened file in read mode*/
     FILE *fptr;
-    fptr = fopen(input_filename, "r"); 
-    assert(fptr != NULL && "Failed to open the file");
-
+    fptr = fopen(input_filename, "r"); /*Case fptr = NULL handled by brainfuck_main*/
 
     uint32_t i = 0;
     int c;
@@ -30,10 +28,11 @@ char* get_input_prog(char* input_filename)
 
 void free_input_prog(char* input_prog)
 {
-    if (input_prog == NULL){
+    if (input_prog != NULL){
+        free(input_prog);
+        input_prog = NULL;
         return;
     }
-    free(input_prog);
 }
 
 
@@ -107,6 +106,7 @@ void free_loops(struct Loops loops)
 {
     if (loops.loops_infos != NULL){
         free(loops.loops_infos);
+        loops.loops_infos = NULL;
         return;
     }
 }
