@@ -4,15 +4,9 @@
 #include "unity.h"
 #include "brainfuck_helper.h"
 
-/* Prototypes des fonctions de test */
-void test_get_input_prog();
-void test_build_loops();
-void test_execute_instruction();
 
-/* Fonction d'initialisation du test suite */
 void setUp(void) {}
 
-/* Fonction de nettoyage du test suite */
 void tearDown(void) {}
 
 
@@ -39,7 +33,7 @@ void test_free_input_prog()
 
     /* Get memory usage information after allocation */
     struct mallinfo2 mallinfo_after = mallinfo2();
-    
+
     /* Check that memory was successfully allocated (keepcosts changed) */
     /* "keepcost" refers to the total amount of releasable free space at the top of the heap.
        If allocation happened, we expect the keepcost value to change because memory was consumed. */
@@ -56,22 +50,96 @@ void test_build_loops() {
     char input_prog[] = "[>++<-]";
     struct Loops loops = build_loops(input_prog);
 
-    TEST_ASSERT_EQUAL(7, loops.loops_infos[0].offset);
-    TEST_ASSERT_EQUAL(-1, loops.loops_infos[3].offset);
+    TEST_ASSERT_EQUAL_PTR(input_prog, loops.start_prog);
 
-    free_loops(loops);
+    TEST_ASSERT_EQUAL(6, loops.loops_infos[0].offset);
+    TEST_ASSERT_EQUAL(6, loops.loops_infos[6].offset);
+
+    /*Test that bracket marker has been correctly added*/
+    TEST_ASSERT_EQUAL(-1, loops.loops_infos[7].offset);
 }
 
 /* Test pour execute_instruction */
 void test_execute_instruction() {
-    char input_prog[] = "+.";
+    char input_prog[] = ",.>++[-]<";
     struct Loops loops = build_loops(input_prog);
-    char *ipp = input_prog;
-    uint8_t data = 0;
-    uint8_t *dpp = &data;
-    execute_instruction(&ipp, &dpp, loops);
+    char *ip = input_prog;
+    uint8_t * data_array = calloc(DATA_ARRAY_SIZE, sizeof(uint8_t));;
+    uint8_t *dp = data_array;
 
-    TEST_ASSERT_EQUAL(1, data);
+    /* Test ',' instruction */
+    freopen("test/test_coma.txt", "r", stdin);
+    execute_instruction(&ip, &dp, loops);
+    TEST_ASSERT_EQUAL(54, *dp);
+
+    /* Test '.' instruction */
+    freopen("test/test_point.txt", "w", stdout);
+    execute_instruction(&ip, &dp, loops);
+    freopen("/dev/tty", "w", stdout); /* Restablished original stdout*/
+    FILE *file = fopen("test/test_point.txt", "r");
+    uint32_t stdout_value;
+    fscanf(file, "%d", &stdout_value);
+    TEST_ASSERT_EQUAL(6, stdout_value);
+   
+    /* Test '>' instruction */
+    uint8_t *dp_before = dp;
+    execute_instruction(&ip, &dp, loops);
+    TEST_ASSERT_EQUAL_PTR(dp_before+1, dp);
+
+
+    /* Test '+++' instruction*/
+    execute_instruction(&ip, &dp, loops);
+    TEST_ASSERT_EQUAL(1, *dp);
+    execute_instruction(&ip, &dp, loops);
+    TEST_ASSERT_EQUAL(2, *dp);
+
+
+    /* Test '[' instruction */
+    char * ip_before = ip;
+    execute_instruction(&ip, &dp, loops);
+    TEST_ASSERT_EQUAL_PTR(ip_before + 1, ip);
+
+    /* Test '-' instruction */
+    execute_instruction(&ip, &dp, loops);
+    TEST_ASSERT_EQUAL(1, *dp);
+
+    /* Test ']' instruction */
+    ip_before = ip;
+    execute_instruction(&ip, &dp, loops);
+    TEST_ASSERT_EQUAL_PTR(ip_before - 1, ip);
+
+    /* Test '-' instruction */
+    execute_instruction(&ip, &dp, loops);
+    TEST_ASSERT_EQUAL(0, *dp);
+
+    /* Test ']' instruction */
+    ip_before = ip;
+    execute_instruction(&ip, &dp, loops);
+    TEST_ASSERT_EQUAL_PTR(ip_before + 1, ip);
+
+    /* Test '<' instruction */
+    dp_before = dp;
+    execute_instruction(&ip, &dp, loops);
+    TEST_ASSERT_EQUAL_PTR(dp_before - 1, dp);
+
+
+
+
+
+    
+
+    // execute_instruction(&ip, &dp, loops);
+    // TEST_ASSERT_EQUAL(1, *dp);
+
+    // execute_instruction(&ip, &dp, loops);
+    // TEST_ASSERT_EQUAL(0, *dp);
+    
+    // execute_instruction(&ip, &dp, loops);
+    // TEST_ASSERT_EQUAL(1, *dp);
+
+    // execute_instruction(&ip, &dp, loops);
+    // TEST_ASSERT_EQUAL(0, *dp);
+    
 
     free_loops(loops);
 }
@@ -82,6 +150,7 @@ int main() {
     /* Ajout des tests à l'exécution */
     RUN_TEST(test_get_input_prog);
     RUN_TEST(test_free_input_prog);
-
+    RUN_TEST(test_build_loops);
+    test_execute_instruction();
     return UNITY_END();
 }
