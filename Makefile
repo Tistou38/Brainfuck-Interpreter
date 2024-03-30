@@ -2,26 +2,36 @@ CC=gcc
 CFLAGS=-std=c99 -Wall -Wextra -g
 LDFLAGS=
 EXEC=brainfuck_interpreter
-TESTS_FILES = test/affiche_1entree.bf test/hello1.bf test/hello2.bf test/print3.bf test/testko1.bf test/tictactoe.bf
+UNITY_ROOT=./Unity
+TESTS_FILES=tests_bf_files/affiche_1entree.bf tests_bf_files/hello1.bf tests_bf_files/hello2.bf tests_bf_files/print3.bf tests_bf_files/testko1.bf tests_bf_files/tictactoe.bf
+SRC_DIR=./src
+INC_DIRS=-Isrc -I$(UNITY_ROOT)/src
+
+# List of source files
+SRC_FILES = $(SRC_DIR)/brainfuck_helper.c $(SRC_DIR)/brainfuck_main.c $(SRC_DIR)/brainfuck_debug.c
+
+UNITARY_TEST_SRC1=test/test_brainfuck_helper.c $(SRC_DIR)/brainfuck_helper.c
+# List of object files
+OBJ_FILES = $(patsubst %.c, %.o, $(SRC_FILES))
 
 all: $(EXEC)
-brainfuck_interpreter: brainfuck_helper.o brainfuck_debug.o brainfuck_main.o
+$(EXEC): $(OBJ_FILES)
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-brainfuck_helper.o: brainfuck_helper.c
-	$(CC) -o $@ -c $< $(CFLAGS)
+# Compilation rule for each source file
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
-brainfuck_debug.o: brainfuck_debug.c
-	$(CC) -o $@ -c $< $(CFLAGS)
-
-brainfuck_main.o: brainfuck_main.c
-	$(CC) -o $@ -c $< $(CFLAGS)
+test_brainfuck_helper: $(UNITARY_TEST_SRC1) $(UNITY_ROOT)/src/unity.c
+	$(CC) $(CFLAGS) $(INC_DIRS) -o $@ $^
 
 all_test: $(EXEC) $(TESTS_FILES)
 	@for test_file in $(TESTS_FILES); do \
 		echo "Running test: $$test_file"; \
 		./$(EXEC) $$test_file; \
 	done
+
+
 .PHONY: clean
 clean:
 	rm -f *.o
