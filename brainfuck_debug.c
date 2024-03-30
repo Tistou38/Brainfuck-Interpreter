@@ -10,13 +10,13 @@ void display_buffer(char* buffer){
         i ++;
     }
 }
-void display_loops_array(struct Loop* loops){
-    struct Loop current_loop;
+void display_loops_array(struct Bracket* loops){
+    struct Bracket current_loop;
     uint32_t i = 0;
-    while ((loops[i].start) != -1)
+    while ((loops[i].offset) != -1)
     {
         current_loop = loops[i];
-        printf("Loop n°%d : start = %d, end = %d\n", i, current_loop.start, current_loop.end);
+        printf("Loop n°%d : offset = %d\n", i, current_loop.offset);
         i++;
     }
 }

@@ -3,11 +3,19 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-struct Loop 
+
+
+struct Bracket 
 {
-    int start;
-    int end;
+    int offset;
 };
+
+struct Loops
+{
+    struct Bracket * loops_infos;
+    char * start_prog;
+};
+
 #define DATA_ARRAY_SIZE 32000
 
 /**
@@ -35,14 +43,14 @@ void free_input_prog(char* input_prog);
  * @param input_prog le programme BrainFuck à analyser
  * @return "quelque chose" qui représente les boucles du programme
  */
-void* build_loops(char* input_prog);
+struct Loops build_loops(char* input_prog);
 
 /**
  * @brief Libère ce qui a été alloué par build_loops.
  *
  * @param loops
  */
-void free_loops(void* loops);
+void free_loops(struct Loops loops);
 
 /**
  * @brief Exécute l'instruction pointée par le pointeur pointé par ipp,
@@ -52,5 +60,5 @@ void free_loops(void* loops);
  * @param dpp un pointeur vers le pointeur de données
  * @param loops le "quelque chose" représentant les boucles, cf 'build_loops'.
  */
-void execute_instruction(char** ipp, uint8_t** dpp, void* loops);
+void execute_instruction(char** ipp, uint8_t** dpp, struct Loops loops);
 #endif /* BRAINFUCK_HELPER_H */
