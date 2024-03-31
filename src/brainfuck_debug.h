@@ -14,4 +14,4 @@
 void display_buffer(char* buffer);
 
 void display_loops_array(struct Bracket* loops);
-#endif /* BRAINFUCK_DEBUG_H */
+#endif
