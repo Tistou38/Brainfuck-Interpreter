@@ -34,5 +34,5 @@ all_test: $(EXEC) $(TESTS_FILES)
 
 .PHONY: clean
 clean:
-	rm -f *.o
+	rm -f $(SRC_DIR)/*.o
 
