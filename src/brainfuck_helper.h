@@ -4,6 +4,16 @@
 #include <stdint.h>
 
 
+enum Instruction {
+        ADD = '+',
+        SUB = '-',
+        NEXT = '>',
+        BACK = '<',
+        POINT = '.',
+        COMMA = ',', 
+        OPEN_BRACKET = '[',
+        CLOSE_BRACKET = ']'
+    };
 
 struct Bracket 
 {
