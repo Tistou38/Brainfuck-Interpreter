@@ -15,13 +15,13 @@ void tearDown(void) {}
 void test_get_input_prog() 
 {
     FILE *test_file = fopen("test_bf_files/test_input_prog.bf", "w");
-    fprintf(test_file, "[This is a test comment]");
+    fprintf(test_file, "[ This is a test comment],>");
     fclose(test_file);
 
     char *result = get_input_prog("test_bf_files/test_input_prog.bf");
-    const char *expected = "[This is a test comment]";
+    const char *expected = "[],>";
     TEST_ASSERT_EQUAL_STRING(expected, result);
-    TEST_ASSERT_EQUAL_CHAR(result[24], '\0');
+    TEST_ASSERT_EQUAL_CHAR(result[27], '\0');
     free(result);
 }
 
@@ -61,12 +61,21 @@ void test_build_loops() {
 
 /* Test pour execute_instruction */
 void test_execute_instruction() {
-    char input_prog[] = ",.>++[-]<";
+    FILE *test_file = fopen("test_bf_files/test_execute_instruction.bf", "w");
+    fprintf(test_file, "[This is a file used in test_brainfuck_helper.c to test execute_instruction]\n,.>++[-]<");
+    fclose(test_file);
+
+    char * input_prog = get_input_prog("test_bf_files/test_execute_instruction.bf");
     struct Loops loops = build_loops(input_prog);
     char *ip = input_prog;
     uint8_t * data_array = calloc(DATA_ARRAY_SIZE, sizeof(uint8_t));;
     uint8_t *dp = data_array;
 
+    /* Test 'initial comment loop' */
+    char * ip_before = ip;
+    execute_instruction(&ip, &dp, loops);
+    TEST_ASSERT_EQUAL_PTR(ip_before+3, ip); /* Test '.' in the initial comment loop is correctly ignored*/
+    
     /* Test ',' instruction */
     freopen("test/test_coma.txt", "r", stdin);
     execute_instruction(&ip, &dp, loops);
@@ -86,7 +95,6 @@ void test_execute_instruction() {
     execute_instruction(&ip, &dp, loops);
     TEST_ASSERT_EQUAL_PTR(dp_before+1, dp);
 
-
     /* Test '+++' instruction*/
     execute_instruction(&ip, &dp, loops);
     TEST_ASSERT_EQUAL(1, *dp);
@@ -95,7 +103,7 @@ void test_execute_instruction() {
 
 
     /* Test '[' instruction */
-    char * ip_before = ip;
+    ip_before = ip;
     execute_instruction(&ip, &dp, loops);
     TEST_ASSERT_EQUAL_PTR(ip_before + 1, ip);
 
@@ -121,12 +129,6 @@ void test_execute_instruction() {
     dp_before = dp;
     execute_instruction(&ip, &dp, loops);
     TEST_ASSERT_EQUAL_PTR(dp_before - 1, dp);
-
-
-
-
-
-    
 
     // execute_instruction(&ip, &dp, loops);
     // TEST_ASSERT_EQUAL(1, *dp);

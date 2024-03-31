@@ -21,7 +21,8 @@ int main(int argc, char **argv) {
     }
 
     char* input_prog = get_input_prog(argv[1]);
-    // display_buffer(input_prog);
+    /* Uncomment to display buffer */
+    /* display_buffer(input_prog); */
     char* ip = input_prog;
     if (ip == NULL) {
         printf("Le fichier Brainfuck passé en paramètre n'existe pas dans le répertoire courant\n");
@@ -29,7 +30,8 @@ int main(int argc, char **argv) {
     }
 
     struct Loops loops = build_loops(ip);
-    // display_loops_array(loops);
+    /* Uncomment to display loops_array */
+    /* display_loops_array(loops); */
     uint8_t* data_array = calloc(DATA_ARRAY_SIZE, sizeof(uint8_t));
     uint8_t* dp = data_array;
     size_t instruction_id = 0;
