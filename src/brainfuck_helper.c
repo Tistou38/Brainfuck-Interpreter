@@ -13,14 +13,31 @@ char* get_input_prog(char* input_filename)
     FILE *fptr;
     fptr = fopen(input_filename, "r"); /*Case fptr = NULL handled by brainfuck_main*/
 
-    uint32_t i = 0;
+    uint32_t idx_file = 0;
+    uint32_t idx_array = 0;
     int c;
-    while ((i < DATA_ARRAY_SIZE - 1) && ((c = fgetc(fptr)) != EOF))
+    while ((idx_file < DATA_ARRAY_SIZE - 1) && ((c = fgetc(fptr)) != EOF))
     {   
-        array[i] = (char) c;
-        i++;
+        switch (c)
+        {
+        case POINT:
+        case COMMA:
+        case ADD:
+        case SUB:
+        case NEXT:
+        case BACK:
+        case OPEN_BRACKET:
+        case CLOSE_BRACKET:
+            array[idx_array] = (char) c;
+            idx_array ++;
+            break;
+        default:
+            break;
+        }
+
+        idx_file++;
     }
-    array[i] = '\0'; /*Add end character*/
+    array[idx_array] = '\0'; /*Add end character*/
 
     return array;
     
@@ -113,16 +130,6 @@ void free_loops(struct Loops loops)
 
 void execute_instruction(char** ipp, uint8_t** dpp, struct Loops loops)
 {
-    enum Instruction {
-        ADD = '+',
-        SUB = '-',
-        NEXT = '>',
-        BACK = '<',
-        POINT = '.',
-        COMMA = ',', 
-        OPEN_BRACKET = '[',
-        CLOSE_BRACKET = ']'
-    };
 
     switch (**ipp)
     {
