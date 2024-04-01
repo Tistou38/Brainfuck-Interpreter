@@ -32,7 +32,8 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
-	struct Loops loops = build_loops(ip);
+	struct Loops *loops = build_loops(ip);
+
 	/* Uncomment to display loops_array */
 	/* display_loops_array(loops); */
 	uint8_t *data_array = calloc(DATA_ARRAY_SIZE, sizeof(uint8_t));

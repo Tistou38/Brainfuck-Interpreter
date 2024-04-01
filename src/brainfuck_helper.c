@@ -51,10 +51,10 @@ void free_input_prog(char *input_prog)
 }
 
 
-struct Loops build_loops(char *input_prog)
+struct Loops * build_loops(char *input_prog)
 {
-	struct Loops loops;
-	loops.start_prog = input_prog;
+	struct Loops * loops = malloc(sizeof(struct Loops));
+	loops->start_prog = input_prog;
 
 	/* Allocate memory for loops_infos with initial capacity */
 	uint32_t initial_capacity = DATA_ARRAY_SIZE * sizeof(struct Bracket);
@@ -116,22 +116,28 @@ struct Loops build_loops(char *input_prog)
 
 	/*Free stack memory after use */
 	free(stack);
-	loops.loops_infos = loops_infos;
+	loops->loops_infos = loops_infos;
 
 	return loops;
 }
 
 
-void free_loops(struct Loops loops)
-{
-	if (loops.loops_infos != NULL) {
-		free(loops.loops_infos);
-		loops.loops_infos = NULL;
+void free_loops(struct Loops * loops)
+{	
+	if (loops != NULL) {
+		if (loops->loops_infos != NULL) {
+			free(loops->loops_infos);
+			loops->loops_infos = NULL;
+		}
+		free(loops);
+		loops = NULL;
 		return;
 	}
+		
+
 }
 
-void execute_instruction(char **ipp, uint8_t ** dpp, struct Loops loops)
+void execute_instruction(char **ipp, uint8_t ** dpp, struct Loops * loops)
 {
 
 	switch (**ipp) {
@@ -156,15 +162,15 @@ void execute_instruction(char **ipp, uint8_t ** dpp, struct Loops loops)
 	case OPEN_BRACKET:
 		if (**dpp == 0) {
 			(*ipp) =
-				(*ipp) + loops.loops_infos[(*ipp) -
-										   loops.start_prog].offset;
+				(*ipp) + loops->loops_infos[(*ipp) -
+										   loops->start_prog].offset;
 		}
 		break;
 	case CLOSE_BRACKET:
 		if (**dpp != 0) {
 			(*ipp) =
-				(*ipp) - loops.loops_infos[(*ipp) -
-										   loops.start_prog].offset;
+				(*ipp) - loops->loops_infos[(*ipp) -
+										   loops->start_prog].offset;
 		}
 		break;
 	default:
