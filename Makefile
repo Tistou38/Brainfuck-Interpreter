@@ -22,6 +22,7 @@ $(EXEC): $(OBJ_FILES)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
+
 test_brainfuck_helper: $(UNITARY_TEST_SRC1) $(UNITY_ROOT)/src/unity.c
 	$(CC) $(CFLAGS) $(INC_DIRS) -o $@ $^
 
