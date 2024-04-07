@@ -16,35 +16,35 @@
 int main(int argc, char **argv)
 {
 
-	if (argc != 2) {
-		printf
-			("Vous devez passer le nom du fichier Brainfuck à interpréter\n");
-		return 1;
-	}
+    if (argc != 2) {
+        printf
+            ("Vous devez passer le nom du fichier Brainfuck à interpréter\n");
+        return 1;
+    }
 
-	char *input_prog = get_input_prog(argv[1]);
-	/* Uncomment to display buffer */
-	/* display_buffer(input_prog); */
-	char *ip = input_prog;
-	if (ip == NULL) {
-		printf
-			("Le fichier Brainfuck passé en paramètre n'existe pas dans le répertoire courant\n");
-		return 1;
-	}
+    char *input_prog = get_input_prog(argv[1]);
+    /* Uncomment to display buffer */
+    /* display_buffer(input_prog); */
+    char *ip = input_prog;
+    if (ip == NULL) {
+        printf
+            ("Le fichier Brainfuck passé en paramètre n'existe pas dans le répertoire courant\n");
+        return 1;
+    }
 
-	struct Loops *loops = build_loops(ip);
+    struct Loops *loops = build_loops(ip);
 
-	/* Uncomment to display loops_array */
-	/* display_loops_array(loops); */
-	uint8_t *data_array = calloc(DATA_ARRAY_SIZE, sizeof(uint8_t));
-	uint8_t *dp = data_array;
-	size_t instruction_id = 0;
-	while (*ip != '\0') {
-		instruction_id++;
-		execute_instruction(&ip, &dp, loops);
-	}
-	free(data_array);
-	free_loops(loops);
-	free_input_prog(input_prog);
-	return EXIT_SUCCESS;
+    /* Uncomment to display loops_array */
+    /* display_loops_array(loops); */
+    uint8_t *data_array = calloc(DATA_ARRAY_SIZE, sizeof(uint8_t));
+    uint8_t *dp = data_array;
+    size_t instruction_id = 0;
+    while (*ip != '\0') {
+        instruction_id++;
+        execute_instruction(&ip, &dp, loops);
+    }
+    free(data_array);
+    free_loops(loops);
+    free_input_prog(input_prog);
+    return EXIT_SUCCESS;
 }
