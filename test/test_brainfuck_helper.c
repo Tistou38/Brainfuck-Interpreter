@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <malloc.h>
+#include "test_brainfuck_helper.h"
 #include "unity.h"
 #include "brainfuck_helper.h"
 
@@ -15,7 +16,7 @@ void tearDown(void)
 
 
 
-/* Test pour get_input_prog */
+
 void test_get_input_prog()
 {
     FILE *test_file = fopen("test_bf_files/test_input_prog.bf", "w");
@@ -51,7 +52,7 @@ void test_free_input_prog()
                              mallinfo_after.keepcost);
 }
 
-/* Test pour build_loops */
+
 void test_build_loops()
 {
     char input_prog[] = "[>++<-]";
@@ -66,7 +67,7 @@ void test_build_loops()
     TEST_ASSERT_EQUAL(-1, loops->loops_infos[7].offset);
 }
 
-/* Test pour execute_instruction */
+
 void test_execute_instruction()
 {
     FILE *test_file =
