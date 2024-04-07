@@ -11,6 +11,7 @@ INC_DIRS=-Isrc -I$(UNITY_ROOT)/src
 SRC_FILES = $(SRC_DIR)/brainfuck_helper.c $(SRC_DIR)/brainfuck_main.c $(SRC_DIR)/brainfuck_debug.c
 
 UNITARY_TEST_SRC1=test/test_brainfuck_helper.c $(SRC_DIR)/brainfuck_helper.c
+TMP_TEST_DIR = test/tmp
 # List of object files
 OBJ_FILES = $(patsubst %.c, %.o, $(SRC_FILES))
 
@@ -35,4 +36,9 @@ all_bf_files_test: $(EXEC)
 .PHONY: clean
 clean:
 	rm -f $(SRC_DIR)/*.o
+
+
+.PHONY: clean_tmp_test
+clean_tmp_test:
+	rm -f $(TMP_TEST_DIR)/*.bf
 
