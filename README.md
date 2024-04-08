@@ -18,6 +18,9 @@ make test_brainfuck_helper
 
 # Interpret all Brainfuck files in the test_bf_files/ directory
 make all_bf_files_test
+
+# Clean up .o files and remove files in test/tmp
+make clean
 ```
 
 ## Contributing
