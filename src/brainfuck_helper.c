@@ -11,9 +11,9 @@ char *get_input_prog(char *input_filename)
 
     /*Opened file in read mode */
     FILE *fptr;
-    fptr = fopen(input_filename, "r"); 
-    if (fptr == NULL){
-        return NULL;  /*Case fptr = NULL handled by brainfuck_main */
+    fptr = fopen(input_filename, "r");
+    if (fptr == NULL) {
+        return NULL;            /*Case fptr = NULL handled by brainfuck_main */
     }
 
     uint32_t idx_file = 0;

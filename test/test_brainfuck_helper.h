@@ -45,4 +45,4 @@ void test_build_loops();
  */
 void test_execute_instruction();
 
-#endif /*TEST_BRAINFUCK_HELPER_H*/
+#endif                          /*TEST_BRAINFUCK_HELPER_H */
