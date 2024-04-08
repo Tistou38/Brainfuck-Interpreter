@@ -35,10 +35,6 @@ all_bf_files_test: $(EXEC)
 
 .PHONY: clean
 clean:
-	rm -f $(SRC_DIR)/*.o
+	rm -f $(SRC_DIR)/*.o $(TMP_TEST_DIR)/*.bf
 
-
-.PHONY: clean_tmp_test
-clean_tmp_test:
-	rm -f $(TMP_TEST_DIR)/*.bf
 
