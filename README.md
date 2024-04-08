@@ -29,4 +29,4 @@ Please make sure to update tests as appropriate.
 
 ## License
 
-Baptiste Le Duc
+Baptiste Le Duc - MIT License
